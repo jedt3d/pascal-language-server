@@ -1,4 +1,3 @@
-
 # Pascal Language Server
 
 An [LSP](https://microsoft.github.io/language-server-protocol/) server
@@ -17,7 +16,7 @@ To see the full list of implemented server capabilities in the current version u
 
 * **pasls.completeCode** Complete code at cursor. Takes DocumentUri and
   Position as options.
-* **pasls.formatCode** Format current file. Takes documentUri and Config file URI as options. 
+* **pasls.formatCode** Format current file. Takes documentUri and Config file URI as options.
   The configuration file is the Jedi Code Formatter configuration file. You
   can find an example in the Lazarus settings directory **~/.lazarus/jcfsettings.cfg**.
   An extra example is included in this repository in **Sample-Formatting.cfg**
@@ -58,13 +57,12 @@ https://github.com/genericptr/pasls-sublime-text) and configure the settings acc
 
 ### Visual Studio Code
 
-Install the [extension](
-https://github.com/genericptr/pasls-vscode) and configure the settings accordingly. You must have the actual language installed before the extension will work.
-
+Install the [Free Pascal Toolkit extension](
+https://marketplace.visualstudio.com/items?itemName=coolchyni.fpctoolkit) and configure the settings accordingly. You must have the actual language installed before the extension will work.
 
 ## Building
 
-Requires Free Pascal Compiler version 3.2.0 and Lazarus trunk sources.
+Requires Free Pascal Compiler version 3.2.2+ and Lazarus trunk sources.
 
 To build using Lazarus, you need to follow the following steps:
 
@@ -72,20 +70,20 @@ To build using Lazarus, you need to follow the following steps:
 [https://gitlab.com/freepascal.org/lazarus/lazarus](https://gitlab.com/freepascal.org/lazarus/lazarus)
 
 * Open the jcfbase package in the lazarus IDE. It is located in the
-  `components/jcf2` directory.  You can compile this package in the IDE.
-  
+  `components/jcf2` directory. You can compile this package in the IDE.
+
   You need to do this only once, so Lazarus knows about the jcfbase package.
   (unless you wish to update the Jedi Code Formatter)
 
 * open the `lspprotocol.lpk` package in Lazarus. It is located in the
   [src/protocol](src/protocol) directory.
   You can compile this package in the IDE, but this is not needed: The
-Lazarus IDE and Lazbuild simply need to know where it is located.
+  Lazarus IDE and Lazbuild simply need to know where it is located.
 
 * open the `lspserver.lpk` package in Lazarus. It is located in the
   [src/serverprotocol](src/serverprotocol) directory.
   You can compile this package in the IDE, but this is not needed: The
-Lazarus IDE and Lazbuild simply need to know where it is located.
+  Lazarus IDE and Lazbuild simply need to know where it is located.
 
 * open the `src/standard/pasls.lpi` project file in Lazarus, and compile the
   program. or use the lazbuid commandline:
@@ -119,10 +117,10 @@ To solve this, 2 extra projects have been added:
 Both programs have a -h or --help commandline option which will display all
 configuration options.
 
-### Configuration  
+### Configuration
 
 #### paslssock
-The paslssock server can read an initialization file with 2 sections, 
+The paslssock server can read an initialization file with 2 sections,
 `Server` and `CodeTools`. These can be used to set another port on which to
 listen, and to specify values for the environment variables that are normally sent by the
 client.
@@ -157,21 +155,50 @@ executable on Windows.
 
 ### Usage
 
-1. Configure the socket process and proxy process. Both can be configured
-   through a command-line option or a configuration file.
+ 1. Configure the socket process and proxy process. Both can be configured
+    through a command-line option or a configuration file.
 
-   By default the server listens on port 9898 and the proxy connects through
-   this port.
+    By default the server listens on port 9898 and the proxy connects through
+    this port.
 
-   For both processes you can specify a log file which will log all communication to that logfile.
+    For both processes you can specify a log file which will log all communication to that logfile.
 
-2. Start the socket server process (in the IDE or debugger of your choice)
-   before you start the editor that uses the language server.
+ 2. Start the socket server process (in the IDE or debugger of your choice)
+    before you start the editor that uses the language server.
 
-3. Configure VS Code (or any other edit) to use the proxy process instead of the standard pasls executable.
-   Simply replace the full path to pasls to the full path to paslsproxy:
+ 3. Configure VS Code (or any other edit) to use the proxy process instead of the standard pasls executable.
+    Simply replace the full path to pasls to the full path to paslsproxy:
 
-![VS Code: specifying paslsproxy](images/vscodedebug.png)
+    ![VS Code: specifying paslsproxy](images/vscodedebug.png)
 
+    4. Happy debugging !
 
-4. Happy debugging !
+## Roadmap
+
+- [ ] Improve code completion coverage and accuracy
+- [ ] Add go-to-definition support
+- [ ] Add find-all-references support
+- [ ] Add hover documentation
+- [ ] Add diagnostics (compiler warnings/errors as you type)
+- [ ] Add symbol search across project
+- [ ] Add rename refactoring support
+
+## Related Projects
+
+- [**lazfpc-mcp**](https://github.com/jedt3d/lazfpc-mcp) - An MCP (Model Context Protocol) server for Lazarus/Free Pascal development. Provides build, LFM analysis, project parsing, and testing tools for AI coding agents (Claude, Cursor, OpenCode). Complements this LSP by exposing Lazarus-specific development workflows to AI assistants.
+- [**FPC MCP Framework**](https://gitlab.com/freepascal.org/mcp) - The official Free Pascal implementation of the Model Context Protocol, providing base classes for building MCP servers and clients.
+- [**Lazarus CodeTools**](https://wiki.lazarus.freepascal.org/Codetools) - The code analysis engine used as the backend for this language server.
+
+## Contributing
+
+Contributions are welcome. Please open an issue or submit a pull request.
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/my-feature`)
+3. Commit your changes (`git commit -m 'feat: add my feature'`)
+4. Push to the branch (`git push -u origin feature/my-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 - see the [COPYING](COPYING) file for details.
